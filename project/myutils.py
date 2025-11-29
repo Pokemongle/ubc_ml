@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from sklearn.metrics import normalized_mutual_info_score, adjusted_rand_score
+from sklearn.metrics import normalized_mutual_info_score, adjusted_rand_score, silhouette_score
 from sklearn.metrics.cluster import contingency_matrix
 from scipy.optimize import linear_sum_assignment
 
@@ -48,10 +48,9 @@ def evaluate_kmeans(X, y_true, k=10, seed=0):
     kmeans = KMeans(n_clusters=k, n_init="auto", random_state=seed)
     y_pred = kmeans.fit_predict(X)
 
-    # NMI & ARI
+    # NMI & ARI 
     nmi = normalized_mutual_info_score(y_true, y_pred)
     ari = adjusted_rand_score(y_true, y_pred)
-
     # Accuracy 
     C = contingency_matrix(y_true, y_pred)  # shape: (n_classes, k)
     row_ind, col_ind = linear_sum_assignment(-C)  
